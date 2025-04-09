@@ -1,0 +1,99 @@
+﻿<Window x:Class="LaboratorySystem.LabAssistantWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Окно лаборанта" Height="650" Width="960"
+        WindowStartupLocation="CenterScreen" Background="#FF17E280">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Шапка -->
+        <DockPanel Grid.Row="0" Background="Gray" LastChildFill="False">
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                <Image Width="50" Height="50" x:Name="img" 
+                           Margin="0,0,10,0"/>
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="Лаборант:" Foreground="White"/>
+                    <TextBlock x:Name="tbUserName" Text="rnjnj" 
+                                   Foreground="White" FontWeight="Bold"/>
+                </StackPanel>
+            </StackPanel>
+            <Button x:Name="btnLogout" Content="Выход" Margin="10" Padding="10,5" DockPanel.Dock="Right" Click="BtnLogout_Click"/>
+        </DockPanel>
+
+        <!-- Основное содержимое -->
+        <TabControl Grid.Row="1" Background="#FF17E280">
+            <TabItem Header="Заказы" FontFamily="Times New Roman">
+                <GroupBox>
+                    <StackPanel>
+                        <Button x:Name="btnRefreshUsers" Content="Обновить список" HorizontalAlignment="Left" 
+                            Margin="0,0,0,10" Padding="5" Click="BtnRefreshUsers_Click" Width="261"/>
+                        <DataGrid x:Name="dgOrders" Height="350" AutoGenerateColumns="False" 
+                              CanUserAddRows="False" IsReadOnly="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn x:Name="idOrd" Header="Номер заказа" Binding="{Binding id_order}" Width="130"/>
+                                <DataGridTextColumn Header="Дата" Binding="{Binding Order.date_create}" Width="170"/>
+                                <DataGridTextColumn Header="Имя" Binding="{Binding Order.Users.name}" Width="170"/>
+                                <DataGridTextColumn Header="Фамилия" Binding="{Binding Order.Users.surname}" Width="165"/>
+                                <DataGridTextColumn Header="Код пробирки" Binding="{Binding tube_code}" Width="170"/>
+                                <DataGridTemplateColumn Header="Услуги">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            
+                                                <Button Click="Hyperlink_Click" >Редактировать</Button>
+                                           
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="Штрихкод">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+
+                                            <Button Click="GenerateButton_Click" >Распечатать</Button>
+
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <Button x:Name="CreateOrder" Content="Создать заказ" Height="40" Width="322"  Margin="0,45,0,20" Click="CreateOrder_Click"/>
+
+                    </StackPanel>
+                </GroupBox>
+            </TabItem>
+
+            <TabItem Header="Отчёты" FontFamily="Times New Roman">
+                <StackPanel Margin="10">
+                    
+                        <StackPanel>
+                            <Label Content="Номер заказа:"/>
+                            <TextBox x:Name="txtOrderNumber" Margin="0,0,0,10"/>
+
+                            <Label Content="Дата начала:"/>
+                            <DatePicker x:Name="dpReportStart" Margin="0,0,0,10"/>
+
+                            <Label Content="Дата окончания:"/>
+                            <DatePicker x:Name="dpReportEnd" Margin="0,0,0,10"/>
+
+                            <Button x:Name="btnGenerateReport" Content="Сформировать отчёт" 
+                                    Padding="10"  Click="BtnGenerateReport_Click" Width="745"/>
+                        </StackPanel>
+                   
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+
+        <!-- Статусная строка -->
+        <StatusBar Grid.Row="2">
+            <StatusBarItem>
+                <TextBlock x:Name="tbStatus" Text="Время"/>
+            </StatusBarItem>
+            <StatusBarItem>
+                <TextBlock x:Name="tbTimer" Text="02:30:00" Foreground="Red" FontWeight="Bold"/>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window>
